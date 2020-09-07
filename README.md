@@ -26,6 +26,7 @@
 
 ## Languages & tools
 
+- [Expo](https://expo.io/) The fastest way to build an app.
 - [Eslint](https://eslint.org/) is used to prevent JavaScript error.
 - [Prettier](https://prettier.io/docs/en/index.html) is an opinionated code formatter.
 - [ReactJS](https://github.com/facebook/react) is used for UI.
