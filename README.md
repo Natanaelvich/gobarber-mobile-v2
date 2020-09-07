@@ -7,9 +7,9 @@
 ## ScreenShots
 
 <p align='center'>
-  <img src='https://user-images.githubusercontent.com/52014318/92420560-79b4fe00-f14a-11ea-8a63-bab8bd59c2e9.png' width='325' />
-  <img src='https://user-images.githubusercontent.com/52014318/92420559-7883d100-f14a-11ea-975e-ebecbcd1ab7a.png' width='325' />
-  <img src='https://user-images.githubusercontent.com/52014318/92420558-7752a400-f14a-11ea-8da6-2bb486d3ccc4.png' width='325' />
+  <img src='https://user-images.githubusercontent.com/52014318/92420560-79b4fe00-f14a-11ea-8a63-bab8bd59c2e9.png' width='305' />
+  <img src='https://user-images.githubusercontent.com/52014318/92420559-7883d100-f14a-11ea-975e-ebecbcd1ab7a.png' width='305' />
+  <img src='https://user-images.githubusercontent.com/52014318/92420558-7752a400-f14a-11ea-8da6-2bb486d3ccc4.png' width='305' />
 </ p>
 
 
