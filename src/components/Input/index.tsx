@@ -1,60 +1,23 @@
-import React, {
-  InputHTMLAttributes,
-  useEffect,
-  useRef,
-  useState,
-  useCallback,
-} from 'react';
-import { useField } from '@unform/core';
-import { IconBaseProps } from 'react-icons/lib';
-import { FiAlertCircle } from 'react-icons/fi';
-import { Container, Error } from './styles';
+import React from 'react';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  icon?: React.ComponentType<IconBaseProps>;
+import { TextInputProps } from 'react-native';
+import { Feather } from 'expo-vector-icons';
+import { Container, TextInput } from './styles';
+
+interface InputProps extends TextInputProps {
   name: string;
+  icon: string;
 }
 
-const Input: React.FC<InputProps> = ({ name, icon: Icon, ...rest }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const { fieldName, defaultValue, error, registerField } = useField(name);
-
-  const [focused, setFocused] = useState(false);
-  const [isFilled, setIsFilled] = useState(false);
-  useEffect(() => {
-    registerField({
-      name: fieldName,
-      ref: inputRef.current,
-      path: 'value',
-    });
-  }, [fieldName, registerField]);
-
-  const onFocus = useCallback(() => {
-    setFocused(true);
-  }, []);
-
-  const handleInputBluer = useCallback(() => {
-    setFocused(false);
-
-    setIsFilled(!!inputRef.current?.value);
-  }, []);
-
+const Input: React.FC<InputProps> = ({ icon, ...rest }) => {
   return (
-    <Container isErrored={!!error} isFilled={isFilled} focused={focused}>
-      {Icon && <Icon size={20} />}
-      <input
-        onFocus={onFocus}
-        onBlur={handleInputBluer}
-        defaultValue={defaultValue}
-        ref={inputRef}
-        type="text"
+    <Container>
+      <Feather name={icon} color="#666360" size={24} />
+      <TextInput
+        keyboardAppearance="dark"
+        placeholderTextColor="#666360"
         {...rest}
       />
-      {error && (
-        <Error title={error}>
-          <FiAlertCircle color="#c53030" size={20} />
-        </Error>
-      )}
     </Container>
   );
 };

@@ -1,20 +1,20 @@
-import styled from 'styled-components';
-import { shade } from 'polished';
+import styled from 'styled-components/native';
+import { RectButton } from 'react-native-gesture-handler';
 
-export const Container = styled.div`
-  button {
-    background: #ff9000;
-    height: 56px;
-    border-radius: 10px;
-    border: 0;
-    padding: 0 16px;
-    color: #312e33;
-    width: 100%;
-    font-weight: 500;
-    margin-top: 16px;
-    transition: background 0.2s;
-    &:hover {
-      background: ${shade(0.2, '#ff9000')};
-    }
-  }
+export const Container = styled.View``;
+export const Button = styled(RectButton)`
+  background: #ff9000;
+  border-radius: 10px;
+  height: 50px;
+  width: 100%;
+
+  align-items: center;
+  justify-content: center;
+`;
+export const ButtonText = styled.Text`
+  font-family: RobotoSlab_500Medium;
+  font-size: 14px;
+  line-height: 18px;
+
+  color: #312e38;
 `;
