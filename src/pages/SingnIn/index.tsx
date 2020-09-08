@@ -1,10 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
 
-// import { Container } from './styles';
+import { Container, Logo, Title } from './styles';
+
+import logo from '../../assets/Logo.png';
 
 const SingnIn: React.FC = () => {
-  return <View />;
+  return (
+    <Container>
+      <Logo source={logo} />
+      <Title>Faça seu logon</Title>
+    </Container>
+  );
 };
 
 export default SingnIn;
