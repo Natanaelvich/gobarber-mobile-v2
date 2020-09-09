@@ -1,6 +1,14 @@
-import styled from 'styled-components/native';
+import styled, { css } from 'styled-components/native';
+import { Feather } from 'expo-vector-icons';
 
-export const Container = styled.View`
+interface ContainerProps {
+  isFocused: boolean;
+  isField: boolean;
+}
+interface IconProps {
+  icon: string;
+}
+export const Container = styled.View<ContainerProps>`
   width: 100%;
   height: 50px;
 
@@ -11,6 +19,14 @@ export const Container = styled.View`
   border-radius: 10px;
   margin-bottom: 8px;
   padding: 0 8px;
+  border-width: 1px;
+  border-color: transparent;
+
+  ${props =>
+    props.isFocused &&
+    css`
+      border-color: #ff9000;
+    `}
 `;
 export const TextInput = styled.TextInput`
   color: #f4ede8;

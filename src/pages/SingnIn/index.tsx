@@ -5,6 +5,7 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
 import { useNavigation } from '@react-navigation/native';
+import { TextInput } from 'react-native';
 import {
   Container,
   Logo,
@@ -21,6 +22,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 const SingnIn: React.FC = () => {
+  const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
@@ -35,8 +37,27 @@ const SingnIn: React.FC = () => {
           <Title>Faça seu logon</Title>
 
           <Form ref={formRef} onSubmit={handleSignIn}>
-            <Input placeholder="E-mail" name="email" icon="mail" />
-            <Input placeholder="Senha" name="password" icon="lock" />
+            <Input
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              placeholder="E-mail"
+              name="email"
+              icon="mail"
+              returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current?.focus()}
+            />
+            <Input
+              ref={passwordRef}
+              secureTextEntry
+              placeholder="Senha"
+              name="password"
+              icon="lock"
+              returnKeyType="send"
+              onSubmitEditing={() => {
+                formRef.current?.submitForm();
+              }}
+            />
 
             <Button
               title="Entrar"

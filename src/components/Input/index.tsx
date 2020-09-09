@@ -1,4 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  useImperativeHandle,
+  forwardRef,
+  useState,
+  useCallback,
+} from 'react';
 
 import { useField } from '@unform/core';
 import { TextInputProps } from 'react-native';
@@ -8,33 +15,81 @@ import { Container, TextInput } from './styles';
 interface InputProps extends TextInputProps {
   name: string;
   icon: string;
+  containerStyle?: object;
 }
 
 interface InputValueReference {
   value: string;
 }
 
-const Input: React.FC<InputProps> = ({ icon, name, ...rest }) => {
-  const { fieldName, defaultValue, error, registerField } = useField(name);
-  const inputRef = useRef<InputValueReference>({ value: defaultValue });
+interface InputRef {
+  focus(): void;
+}
+
+const Input: React.RefForwardingComponent<InputRef, InputProps> = (
+  { icon, name, ...rest },
+  ref,
+) => {
+  const inputElementRef = useRef<any>(null);
+
+  const { registerField, defaultValue = '', fieldName, error } = useField(name);
+  const inputValueRef = useRef<InputValueReference>({ value: defaultValue });
+
+  const [isFocused, setIsFocused] = useState(false);
+  const [isFilled, setIsFilled] = useState(false);
+
+  const handleInputFocus = useCallback(() => {
+    setIsFocused(true);
+  }, []);
+
+  const handleInputBlur = useCallback(() => {
+    setIsFocused(false);
+
+    setIsFilled(!!inputValueRef.current.value);
+  }, []);
 
   useEffect(() => {
-    registerField({
+    inputValueRef.current.value = defaultValue;
+  }, [defaultValue]);
+
+  useImperativeHandle(ref, () => ({
+    focus() {
+      inputElementRef.current.focus();
+    },
+  }));
+
+  useEffect(() => {
+    registerField<string>({
       name: fieldName,
-      ref: inputRef.current,
+      ref: inputValueRef.current,
       path: 'value',
+      setValue(ref: any, value: string) {
+        inputValueRef.current.value = value;
+        inputElementRef.current.setNativeProps({ text: value });
+      },
+      clearValue(ref: any) {
+        inputValueRef.current.value = '';
+        inputElementRef.current.clear();
+      },
     });
   }, [fieldName, registerField]);
 
   return (
-    <Container>
-      <Feather name={icon} color="#666360" size={24} />
+    <Container isFocused={isFocused} isFilled={isFilled}>
+      <Feather
+        name={icon}
+        size={24}
+        color={isFocused || isFilled ? '#ff9000' : '#666360'}
+      />
       <TextInput
+        ref={inputElementRef}
         keyboardAppearance="dark"
         defaultValue={defaultValue}
         placeholderTextColor="#666360"
-        onChangeText={text => {
-          inputRef.current.value = text;
+        onFocus={handleInputFocus}
+        onBlur={handleInputBlur}
+        onChangeText={value => {
+          inputValueRef.current.value = value;
         }}
         {...rest}
       />
@@ -42,4 +97,4 @@ const Input: React.FC<InputProps> = ({ icon, name, ...rest }) => {
   );
 };
 
-export default Input;
+export default forwardRef(Input);
