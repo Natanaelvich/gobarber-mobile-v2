@@ -1,7 +1,7 @@
 import React, { useRef, useCallback } from 'react';
 
 import { Feather } from 'expo-vector-icons';
-
+import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
@@ -18,6 +18,7 @@ import {
 import logo from '../../assets/Logo.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import getValidationErros from '../../utils/getValidationErros';
 
 const SingnUp: React.FC = () => {
   const navigation = useNavigation();
@@ -25,16 +26,54 @@ const SingnUp: React.FC = () => {
   const passwordRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
 
-  const handleSignIn = useCallback(
-    (data: { name: string; email: string; password: string }) => {
-      console.log(data);
+  const hanleSignIn = useCallback(
+    async (data: { name: string; email: string; password: string }) => {
+      try {
+        formRef.current?.setErrors({});
+        const schema = Yup.object().shape({
+          name: Yup.string().required('Nome obrigatório.'),
+          email: Yup.string()
+            .required('E-mail obrigatório.')
+            .email('Digite um e-mail valido.'),
+          password: Yup.string().required('Senha obrigatória'),
+        });
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        const { email, password } = data;
+
+        console.log(email, password);
+
+        // await signIn({ email, password });
+
+        // addToast({
+        //   type: 'success',
+        //   title: 'logado com sucesso',
+        // });
+
+        // navigation.navigate('Dashboard');
+      } catch (error) {
+        if (error instanceof Yup.ValidationError) {
+          const errors = getValidationErros(error);
+          console.log(errors);
+          formRef.current?.setErrors(errors);
+        }
+
+        // addToast({
+        //   type: 'error',
+        //   title: 'Erro no login',
+        //   description: 'Verifique suas credenciais',
+        // });
+      }
     },
     [],
   );
   return (
     <Container>
       <FormContainer>
-        <Form ref={formRef} onSubmit={handleSignIn}>
+        <Form ref={formRef} onSubmit={hanleSignIn}>
           <Logo source={logo} />
           <Title>Faça seu cadastro</Title>
           <Input

@@ -1,13 +1,11 @@
 import styled, { css } from 'styled-components/native';
-import { Feather } from 'expo-vector-icons';
 
 interface ContainerProps {
   isFocused: boolean;
   isField: boolean;
+  isErrored: boolean;
 }
-interface IconProps {
-  icon: string;
-}
+
 export const Container = styled.View<ContainerProps>`
   width: 100%;
   height: 50px;
@@ -22,6 +20,11 @@ export const Container = styled.View<ContainerProps>`
   border-width: 1px;
   border-color: transparent;
 
+  ${props =>
+    props.isErrored &&
+    css`
+      border-color: #c53030;
+    `}
   ${props =>
     props.isFocused &&
     css`
