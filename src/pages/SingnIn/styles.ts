@@ -1,18 +1,17 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View`
+export const Container = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
+  },
+})`
   background: #312e38;
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  justify-content: space-between;
 `;
-export const Form = styled.View`
+export const FormContainer = styled.View`
   align-items: center;
   justify-content: center;
   padding: 40px;
-  width: 100%;
-  flex: 1;
 `;
 export const Logo = styled.Image``;
 export const Title = styled.Text`
@@ -22,6 +21,7 @@ export const Title = styled.Text`
   line-height: 26px;
   color: #f4ede8;
 `;
+export const ForgotPasswordButton = styled.TouchableWithoutFeedback``;
 export const ForgotPassword = styled.Text`
   margin-top: 24px;
   font-family: RobotoSlab_400Regular;
@@ -29,14 +29,16 @@ export const ForgotPassword = styled.Text`
   line-height: 18px;
   color: #f4ede8;
 `;
-export const CreateAccountContainer = styled.View`
+export const CreateAccountContainer = styled.TouchableOpacity`
   width: 100%;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   height: 60px;
   border-top-width: 1px;
-  border-color: #000;
+  border-color: #232129;
+
+  background: #312e38;
 `;
 export const CreateAccountText = styled.Text`
   font-family: RobotoSlab_500Medium;
