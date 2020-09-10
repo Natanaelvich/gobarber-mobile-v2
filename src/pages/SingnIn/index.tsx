@@ -22,11 +22,14 @@ import {
 import logo from '../../assets/Logo.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import { useAuth } from '../../hooks/modules/AuthContext';
 
 const SingnIn: React.FC = () => {
   const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
+
+  const { signIn, user } = useAuth();
 
   const hanleSignIn = useCallback(
     async (data: { email: string; password: string }) => {
@@ -45,38 +48,23 @@ const SingnIn: React.FC = () => {
 
         const { email, password } = data;
 
-        console.log(email, password);
-
-        // await signIn({ email, password });
-
-        // addToast({
-        //   type: 'success',
-        //   title: 'logado com sucesso',
-        // });
-
-        // navigation.navigate('Dashboard');
+        await signIn({ email, password });
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErros(error);
-          console.log(errors);
           formRef.current?.setErrors(errors);
         }
-
-        // addToast({
-        //   type: 'error',
-        //   title: 'Erro no login',
-        //   description: 'Verifique suas credenciais',
-        // });
       }
     },
-    [],
+    [signIn],
   );
   return (
     <>
       <Container>
         <FormContainer>
           <Logo source={logo} />
-          <Title>Faça seu logon</Title>
+          {/* <Title>Faça seu logon</Title> */}
+          <Title>{user?.name ? user.name : 'nada'}</Title>
 
           <Form ref={formRef} onSubmit={hanleSignIn}>
             <Input

@@ -1,11 +1,11 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 
 import { Feather } from 'expo-vector-icons';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
-import { TextInput } from 'react-native';
+import { TextInput, Alert } from 'react-native';
 import {
   Container,
   Logo,
@@ -19,6 +19,7 @@ import logo from '../../assets/Logo.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErros from '../../utils/getValidationErros';
+import api from '../../services/api';
 
 const SingnUp: React.FC = () => {
   const navigation = useNavigation();
@@ -35,47 +36,41 @@ const SingnUp: React.FC = () => {
           email: Yup.string()
             .required('E-mail obrigatório.')
             .email('Digite um e-mail valido.'),
-          password: Yup.string().required('Senha obrigatória'),
+          password: Yup.string()
+            .required('Senha obrigatória')
+            .min(6, 'Minimo de 6 digitos.'),
         });
 
         await schema.validate(data, {
           abortEarly: false,
         });
 
-        const { email, password } = data;
+        const { name, email, password } = data;
 
-        console.log(email, password);
+        await api.post('users', { name, email, password });
 
-        // await signIn({ email, password });
-
-        // addToast({
-        //   type: 'success',
-        //   title: 'logado com sucesso',
-        // });
-
-        // navigation.navigate('Dashboard');
+        navigation.navigate('SingnIn');
       } catch (error) {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErros(error);
-          console.log(errors);
           formRef.current?.setErrors(errors);
+          return;
         }
 
-        // addToast({
-        //   type: 'error',
-        //   title: 'Erro no login',
-        //   description: 'Verifique suas credenciais',
-        // });
+        Alert.alert(
+          'Erro no cadatro',
+          'Ocorreu um erro ao fazer o cadastro, tente novamente',
+        );
       }
     },
-    [],
+    [navigation],
   );
   return (
     <Container>
       <FormContainer>
+        <Logo source={logo} />
+        <Title>Faça seu cadastro</Title>
         <Form ref={formRef} onSubmit={hanleSignIn}>
-          <Logo source={logo} />
-          <Title>Faça seu cadastro</Title>
           <Input
             autoCapitalize="words"
             placeholder="Nome"

@@ -1,9 +1,18 @@
 import React from 'react';
 
-// import { Container } from './styles';
+import { Container, Title } from './styles';
+import { Button } from '../../components/Button/styles';
+import { useAuth } from '../../hooks/modules/AuthContext';
 
 const Dashboard: React.FC = () => {
-  return <div />;
+  const { signOut } = useAuth();
+
+  return (
+    <Container>
+      <Title>Dashboard</Title>
+      <Button onPress={signOut} />
+    </Container>
+  );
 };
 
 export default Dashboard;

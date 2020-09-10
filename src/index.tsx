@@ -7,6 +7,7 @@ import {
   useFonts,
 } from '@expo-google-fonts/roboto-slab';
 import Routes from './routes';
+import AppProvider from './hooks';
 
 const Main: React.FC = () => {
   const [fontsLoaded] = useFonts({
@@ -21,7 +22,9 @@ const Main: React.FC = () => {
   return (
     <>
       <StatusBar barStyle="light-content" backgroundColor="#312e38" />
-      <Routes />
+      <AppProvider>
+        <Routes />
+      </AppProvider>
     </>
   );
 };
