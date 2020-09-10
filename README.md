@@ -3,10 +3,16 @@
 ### Welcome to the GoBarber mobile project ⚛🚀🔥
 
 ---
+## Gifs
+
+<p align='center'>
+<img src='https://user-images.githubusercontent.com/52014318/92821861-e2e27e80-f3a1-11ea-9076-6149b86c74c8.gif' width='375' />
+</ p>
 
 ## ScreenShots
 
 <p align='center'>
+  
   <img src='https://user-images.githubusercontent.com/52014318/92420560-79b4fe00-f14a-11ea-8a63-bab8bd59c2e9.png' width='240' />
   <img src='https://user-images.githubusercontent.com/52014318/92420559-7883d100-f14a-11ea-975e-ebecbcd1ab7a.png' width='240' />
   <img src='https://user-images.githubusercontent.com/52014318/92420558-7752a400-f14a-11ea-8da6-2bb486d3ccc4.png' width='240' />
