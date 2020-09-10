@@ -29,7 +29,7 @@ const SingnIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
 
-  const { signIn, user } = useAuth();
+  const { signIn } = useAuth();
 
   const hanleSignIn = useCallback(
     async (data: { email: string; password: string }) => {
@@ -63,8 +63,7 @@ const SingnIn: React.FC = () => {
       <Container>
         <FormContainer>
           <Logo source={logo} />
-          {/* <Title>Faça seu logon</Title> */}
-          <Title>{user?.name ? user.name : 'nada'}</Title>
+          <Title>Faça seu logon</Title>
 
           <Form ref={formRef} onSubmit={hanleSignIn}>
             <Input
