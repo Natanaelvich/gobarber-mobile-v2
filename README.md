@@ -6,7 +6,7 @@
 ## Gifs
 
 <p align='center'>
-<img src='https://user-images.githubusercontent.com/52014318/92821861-e2e27e80-f3a1-11ea-9076-6149b86c74c8.gif' width='375' />
+<img src='https://user-images.githubusercontent.com/52014318/92821861-e2e27e80-f3a1-11ea-9076-6149b86c74c8.gif' width='275' />
 </ p>
 
 ## ScreenShots
