@@ -54,6 +54,7 @@ const SingnUp: React.FC = () => {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErros(error);
           formRef.current?.setErrors(errors);
+
           return;
         }
 

@@ -30,10 +30,19 @@ export const Container = styled.View<ContainerProps>`
     css`
       border-color: #ff9000;
     `}
+  ${props =>
+    props.isFilled &&
+    css`
+      border-color: #ff9000;
+    `}
 `;
 export const TextInput = styled.TextInput`
   color: #f4ede8;
   font-family: RobotoSlab_400Regular;
   flex: 1;
-  margin-left: 016px;
+  margin-left: 16px;
+`;
+export const ErrorText = styled.Text`
+  color: #c53030;
+  font-family: RobotoSlab_400Regular;
 `;

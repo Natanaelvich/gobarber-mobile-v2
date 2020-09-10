@@ -10,7 +10,7 @@ import React, {
 import { useField } from '@unform/core';
 import { TextInputProps } from 'react-native';
 import { Feather } from 'expo-vector-icons';
-import { Container, TextInput } from './styles';
+import { Container, TextInput, ErrorText } from './styles';
 
 interface InputProps extends TextInputProps {
   name: string;
@@ -75,25 +75,28 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
   }, [fieldName, registerField]);
 
   return (
-    <Container isFocused={isFocused} isFilled={isFilled} isErrored={!!error}>
-      <Feather
-        name={icon}
-        size={24}
-        color={isFocused || isFilled ? '#ff9000' : '#666360'}
-      />
-      <TextInput
-        ref={inputElementRef}
-        keyboardAppearance="dark"
-        defaultValue={defaultValue}
-        placeholderTextColor="#666360"
-        onFocus={handleInputFocus}
-        onBlur={handleInputBlur}
-        onChangeText={value => {
-          inputValueRef.current.value = value;
-        }}
-        {...rest}
-      />
-    </Container>
+    <>
+      {!!error && <ErrorText>{error}</ErrorText>}
+      <Container isFocused={isFocused} isFilled={isFilled} isErrored={!!error}>
+        <Feather
+          name={icon}
+          size={24}
+          color={isFocused || isFilled ? '#ff9000' : '#666360'}
+        />
+        <TextInput
+          ref={inputElementRef}
+          keyboardAppearance="dark"
+          defaultValue={defaultValue}
+          placeholderTextColor="#666360"
+          onFocus={handleInputFocus}
+          onBlur={handleInputBlur}
+          onChangeText={value => {
+            inputValueRef.current.value = value;
+          }}
+          {...rest}
+        />
+      </Container>
+    </>
   );
 };
 
