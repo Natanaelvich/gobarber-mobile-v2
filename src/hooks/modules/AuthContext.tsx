@@ -6,8 +6,14 @@ import React, {
   useEffect,
 } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import { string } from 'yup';
 import api from '../../services/api';
+
+interface User {
+  id: string;
+  email: string;
+  name: string;
+  avatar_url: string;
+}
 
 interface SingnCredencials {
   email: string;
@@ -15,11 +21,11 @@ interface SingnCredencials {
 }
 interface AuthState {
   token: string;
-  user: object;
+  user: User;
 }
 
 interface AuthContextData {
-  user: object;
+  user: User;
   loading: boolean;
   signIn(crendencial: SingnCredencials): Promise<void>;
   signOut(): void;
@@ -41,6 +47,7 @@ const AuthProvider: React.FC = ({ children }) => {
         setData({ token: token[1], user: JSON.parse(user[1]) });
       }
 
+      api.defaults.headers.authorization = `Bearer ${token[1]}`;
       setLoading(false);
     }
 
@@ -59,6 +66,8 @@ const AuthProvider: React.FC = ({ children }) => {
       ['@Gobarber:user', JSON.stringify(user)],
     ]);
     setData({ token, user });
+
+    api.defaults.headers.authorization = `Bearer ${token}`;
   }, []);
 
   const signOut = useCallback(async () => {

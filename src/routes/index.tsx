@@ -6,6 +6,9 @@ import { AppLoading } from 'expo';
 import AuthRoutes from './AuthRoutes';
 import Dashboard from '../pages/Dashboard';
 import { useAuth } from '../hooks/modules/AuthContext';
+import Profile from '../pages/Profile';
+import AppointmentDatePicker from '../pages/AppointmentDatePicker';
+import AppointmentCreated from '../pages/AppointmentCreated';
 
 const Stack = createStackNavigator();
 const Routes: React.FC = () => {
@@ -24,6 +27,15 @@ const Routes: React.FC = () => {
           }}
         >
           <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="Profile" component={Profile} />
+          <Stack.Screen
+            name="AppointmentDatePicker"
+            component={AppointmentDatePicker}
+          />
+          <Stack.Screen
+            name="AppointmentCreated"
+            component={AppointmentCreated}
+          />
         </Stack.Navigator>
       ) : (
         <AuthRoutes />
