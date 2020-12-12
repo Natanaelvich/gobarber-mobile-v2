@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 
+import { View as MotiView } from 'moti';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Yup from 'yup';
 import { Form } from '@unform/mobile';
@@ -87,7 +88,21 @@ const SingnIn: React.FC = () => {
     <>
       <Container>
         <FormContainer>
-          <Logo source={logo} />
+          <MotiView
+            from={{ top: -44 }}
+            animate={{ top: 1 }}
+            transition={{
+              type: 'timing',
+              duration: 1000,
+              scale: {
+                type: 'spring',
+                delay: 100,
+              },
+            }}
+            style={{ alignItems: 'center' }}
+          >
+            <Logo source={logo} />
+          </MotiView>
           <Title>Faça seu logon</Title>
 
           {errorLogin.error && (
@@ -104,36 +119,50 @@ const SingnIn: React.FC = () => {
             </ErrorLogin>
           )}
 
-          <Form ref={formRef} onSubmit={hanleSignIn}>
-            <Input
-              autoCorrect={false}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              placeholder="E-mail"
-              name="email"
-              icon="mail"
-              returnKeyType="next"
-              onSubmitEditing={() => passwordRef.current?.focus()}
-            />
-            <Input
-              ref={passwordRef}
-              secureTextEntry
-              placeholder="Senha"
-              name="password"
-              icon="lock"
-              returnKeyType="send"
-              onSubmitEditing={() => {
-                formRef.current?.submitForm();
-              }}
-            />
+          <MotiView
+            from={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{
+              type: 'timing',
+              duration: 2000,
+              scale: {
+                type: 'spring',
+                delay: 100,
+              },
+            }}
+            style={{ width: '100%' }}
+          >
+            <Form ref={formRef} onSubmit={hanleSignIn}>
+              <Input
+                autoCorrect={false}
+                autoCapitalize="none"
+                keyboardType="email-address"
+                placeholder="E-mail"
+                name="email"
+                icon="mail"
+                returnKeyType="next"
+                onSubmitEditing={() => passwordRef.current?.focus()}
+              />
+              <Input
+                ref={passwordRef}
+                secureTextEntry
+                placeholder="Senha"
+                name="password"
+                icon="lock"
+                returnKeyType="send"
+                onSubmitEditing={() => {
+                  formRef.current?.submitForm();
+                }}
+              />
 
-            <Button
-              title="Entrar"
-              onPress={() => {
-                formRef.current?.submitForm();
-              }}
-            />
-          </Form>
+              <Button
+                title="Entrar"
+                onPress={() => {
+                  formRef.current?.submitForm();
+                }}
+              />
+            </Form>
+          </MotiView>
 
           <ForgotPasswordButton>
             <ForgotPassword>Esqueci minha senha</ForgotPassword>
