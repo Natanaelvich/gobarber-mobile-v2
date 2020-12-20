@@ -4,7 +4,7 @@ import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
 import { Alert } from 'react-native';
-import { MaterialCommunityIcons } from 'expo-vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/modules/AuthContext';
 import {

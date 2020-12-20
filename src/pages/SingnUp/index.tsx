@@ -1,6 +1,6 @@
 import React, { useRef, useCallback } from 'react';
 
-import { Feather } from 'expo-vector-icons';
+import { Feather } from '@expo/vector-icons';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
