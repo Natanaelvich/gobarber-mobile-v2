@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useCallback } from 'react';
 
 import { Feather } from 'expo-vector-icons';
 import * as Yup from 'yup';
