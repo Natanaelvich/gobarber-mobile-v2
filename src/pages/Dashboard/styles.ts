@@ -38,6 +38,21 @@ export const UserAvatar = styled.Image`
   border-radius: 28px;
 `;
 
+export const ProvidersEmptyContainer = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`;
+
+export const ProvidersEmptyTitle = styled.Text`
+  font-family: RobotoSlab_500Medium;
+  color: #f4ede8;
+  font-size: 24px;
+  margin-bottom: 24px;
+  max-width: 80%;
+  text-align: center;
+`;
+
 export const ProvidersList = styled(
   FlatList as new () => FlatList<Provider>,
 ).attrs({
