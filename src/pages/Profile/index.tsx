@@ -12,7 +12,6 @@ import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
 import { useAuth } from '../../hooks/modules/AuthContext';
-import api from '../../services/api';
 
 import getValidationErros from '../../utils/getValidationErros';
 
@@ -20,6 +19,7 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 
 import { Container, Title, Avatar } from './styles';
+import getAvatarUrl from '../../utils/getAvatarUrl';
 
 interface ProfileFormData {
   name: string;
@@ -95,13 +95,13 @@ const Profile: React.FC = () => {
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={{ flex: 1 }}
+          contentContainerStyle={{ flexGrow: 1 }}
         >
           <Container>
             <Avatar
               source={{
                 uri:
-                  user.avatar_url ||
+                  getAvatarUrl(user.avatar_url) ||
                   `https://api.adorable.io/avatars/100/${user.name}@adorable.png`,
               }}
             />
