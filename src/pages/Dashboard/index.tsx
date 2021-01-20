@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from 'expo-vector-icons';
-import { FlatListProps } from 'react-native';
+import { BorderlessButton } from 'react-native-gesture-handler';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/modules/AuthContext';
 import {
@@ -20,7 +20,10 @@ import {
   ProviderName,
   ProviderMeta,
   ProviderMetaText,
+  ProvidersEmptyContainer,
+  ProvidersEmptyTitle,
 } from './styles';
+import getAvatarUrl from '../../utils/getAvatarUrl';
 
 export interface Provider {
   id: string;
@@ -28,15 +31,26 @@ export interface Provider {
   avatar_url: string;
 }
 
+export interface ProviderList {
+  item: Provider;
+}
+
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
   const navigation = useNavigation();
   const [providers, setProviders] = useState<Provider[]>([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    api.get('providers').then(response => {
-      setProviders(response.data);
-    });
+    try {
+      api.get('providers').then(response => {
+        setProviders(response.data);
+      });
+    } catch (error) {
+      setErrorMessage(
+        'Problemas ao buscar cabeleleiros 😞, teste novamente mais tarde!',
+      );
+    }
   }, []);
 
   const handleSelectProvider = useCallback(
@@ -49,60 +63,71 @@ const Dashboard: React.FC = () => {
   return (
     <Container>
       <Header>
-        <HeaderTitle>
-          Bem vindo, {'\n'}
-          <UserName>{user.name}</UserName>
-        </HeaderTitle>
+        <BorderlessButton onPress={() => navigation.navigate('Profile')}>
+          <HeaderTitle>
+            Bem vindo, {'\n'}
+            <UserName>{user.name}</UserName>
+          </HeaderTitle>
+        </BorderlessButton>
 
         <ProfileButton onPress={() => navigation.navigate('Profile')}>
           <UserAvatar
             source={{
               uri:
-                user.avatar_url ||
-                `https://api.adorable.io/avatars/300/${user.name}@adorable.png`,
+                getAvatarUrl(user.avatar_url) ||
+                `https://www.gravatar.com/avatar/${user.id}`,
             }}
           />
         </ProfileButton>
       </Header>
+      {providers.length > 0 ? (
+        <ProvidersList
+          data={providers}
+          keyExtractor={(provider: Provider) => provider.id}
+          ListHeaderComponent={
+            <ProvidersListTitle>Cabelereiros</ProvidersListTitle>
+          }
+          renderItem={({ item: provider }: ProviderList) => (
+            <ProviderContainer
+              onPress={() => handleSelectProvider(provider.id)}
+            >
+              <ProviderAvatar
+                source={{
+                  uri:
+                    provider.avatar_url ||
+                    `https://api.adorable.io/avatars/200/${provider.name}@adorable.png`,
+                }}
+              />
 
-      <ProvidersList
-        data={providers}
-        keyExtractor={(provider: Provider) => provider.id}
-        ListHeaderComponent={
-          <ProvidersListTitle>Cabelereiros</ProvidersListTitle>
-        }
-        renderItem={({ item: provider }) => (
-          <ProviderContainer onPress={() => handleSelectProvider(provider.id)}>
-            <ProviderAvatar
-              source={{
-                uri:
-                  provider.avatar_url ||
-                  `https://api.adorable.io/avatars/200/${provider.name}@adorable.png`,
-              }}
-            />
-
-            <ProviderInfo>
-              <ProviderName>{provider.name}</ProviderName>
-              <ProviderMeta>
-                <MaterialCommunityIcons
-                  name="calendar"
-                  size={14}
-                  color="#ff9000"
-                />
-                <ProviderMetaText>Segunda à sexta</ProviderMetaText>
-              </ProviderMeta>
-              <ProviderMeta>
-                <MaterialCommunityIcons
-                  name="clock"
-                  size={14}
-                  color="#ff9000"
-                />
-                <ProviderMetaText>8h às 18h</ProviderMetaText>
-              </ProviderMeta>
-            </ProviderInfo>
-          </ProviderContainer>
-        )}
-      />
+              <ProviderInfo>
+                <ProviderName>{provider.name}</ProviderName>
+                <ProviderMeta>
+                  <MaterialCommunityIcons
+                    name="calendar"
+                    size={14}
+                    color="#ff9000"
+                  />
+                  <ProviderMetaText>Segunda à sexta</ProviderMetaText>
+                </ProviderMeta>
+                <ProviderMeta>
+                  <MaterialCommunityIcons
+                    name="clock"
+                    size={14}
+                    color="#ff9000"
+                  />
+                  <ProviderMetaText>8h às 18h</ProviderMetaText>
+                </ProviderMeta>
+              </ProviderInfo>
+            </ProviderContainer>
+          )}
+        />
+      ) : (
+        <ProvidersEmptyContainer>
+          <ProvidersEmptyTitle>
+            {errorMessage || 'Não existe cabeleleiros ainda 😅 !'}
+          </ProvidersEmptyTitle>
+        </ProvidersEmptyContainer>
+      )}
     </Container>
   );
 };
