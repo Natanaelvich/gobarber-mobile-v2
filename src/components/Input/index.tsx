@@ -9,13 +9,13 @@ import React, {
 
 import { useField } from '@unform/core';
 import { TextInputProps } from 'react-native';
-import { Feather } from 'expo-vector-icons';
+import { Feather } from '@expo/vector-icons';
 import { Container, TextInput, ErrorText } from './styles';
 
 interface InputProps extends TextInputProps {
   name: string;
   icon: string;
-  containerStyle?: object;
+  containerStyle?: Record<string, unknown>;
 }
 
 interface InputValueReference {
@@ -63,11 +63,11 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
       name: fieldName,
       ref: inputValueRef.current,
       path: 'value',
-      setValue(ref: any, value: string) {
+      setValue(refField: any, value: string) {
         inputValueRef.current.value = value;
         inputElementRef.current.setNativeProps({ text: value });
       },
-      clearValue(ref: any) {
+      clearValue(refField: any) {
         inputValueRef.current.value = '';
         inputElementRef.current.clear();
       },
@@ -90,7 +90,7 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
           placeholderTextColor="#666360"
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
-          onChangeText={value => {
+          onChangeText={(value: any) => {
             inputValueRef.current.value = value;
           }}
           {...rest}

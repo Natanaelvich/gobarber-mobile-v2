@@ -2,7 +2,7 @@ import 'react-native-gesture-handler';
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 import AuthRoutes from './AuthRoutes';
 import Dashboard from '../pages/Dashboard';
 import { useAuth } from '../hooks/modules/AuthContext';

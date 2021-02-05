@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
 import { useNavigation } from '@react-navigation/native';
-import { MaterialCommunityIcons } from 'expo-vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BorderlessButton } from 'react-native-gesture-handler';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/modules/AuthContext';
