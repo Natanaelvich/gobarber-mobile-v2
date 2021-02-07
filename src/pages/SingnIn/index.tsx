@@ -1,6 +1,6 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
-import { Feather } from '@expo/vector-icons';
+import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Yup from 'yup';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
@@ -17,6 +17,8 @@ import {
   CreateAccountText,
   ForgotPasswordButton,
   FormContainer,
+  ErrorLogin,
+  ErrorLoginText,
 } from './styles';
 
 import logo from '../../assets/Logo.png';
@@ -28,6 +30,11 @@ const SingnIn: React.FC = () => {
   const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
+
+  const [errorLogin, setErrorLogin] = useState({
+    error: false,
+    message: '',
+  });
 
   const { signIn } = useAuth();
 
@@ -53,7 +60,25 @@ const SingnIn: React.FC = () => {
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErros(error);
           formRef.current?.setErrors(errors);
+          return;
         }
+        let messageError = '';
+
+        if (error.status === 401) {
+          messageError = 'Sua sessão expirou';
+        }
+        if (error.status === 500) {
+          messageError = 'Erro ao buscar macros, problemas no servidor ⚠';
+        }
+        if (error.message === 'Network Error') {
+          messageError =
+            'Falha de conexão, verifique sua internet e tente novamente';
+        }
+
+        setErrorLogin({
+          error: true,
+          message: messageError,
+        });
       }
     },
     [signIn],
@@ -64,6 +89,20 @@ const SingnIn: React.FC = () => {
         <FormContainer>
           <Logo source={logo} />
           <Title>Faça seu logon</Title>
+
+          {errorLogin.error && (
+            <ErrorLogin>
+              <MaterialCommunityIcons
+                name="alert-circle"
+                size={32}
+                color="#E04848"
+              />
+              <ErrorLoginText>
+                {errorLogin.message ||
+                  'Falha no login, verifique suas credenciais e tente novamente!'}
+              </ErrorLoginText>
+            </ErrorLogin>
+          )}
 
           <Form ref={formRef} onSubmit={hanleSignIn}>
             <Input
