@@ -48,3 +48,17 @@ export const CreateAccountText = styled.Text`
 
   color: #ff9000;
 `;
+export const ErrorLogin = styled.View`
+  flex-direction: row;
+  align-items: center;
+  align-self: center;
+  margin: 12px 0;
+  width: 80%;
+`;
+export const ErrorLoginText = styled.Text`
+  font-style: normal;
+  font-weight: normal;
+  font-size: 12px;
+  color: #e04848;
+  margin-left: 6px;
+`;
