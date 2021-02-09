@@ -28,7 +28,7 @@ interface ProfileFormData {
 }
 
 const Profile: React.FC = () => {
-  const { user } = useAuth();
+  const { user, signOut } = useAuth();
   const formRef = useRef<FormHandles>(null);
 
   const emailInputRef = useRef<TextInput>(null);
@@ -63,8 +63,6 @@ const Profile: React.FC = () => {
       await schema.validate(data, {
         abortEarly: false,
       });
-
-      console.log(data);
 
       Alert.alert(
         'Perfil atualizado com sucesso!',
@@ -175,6 +173,7 @@ const Profile: React.FC = () => {
                 onPress={() => formRef.current?.submitForm()}
               />
             </Form>
+            <Button title="Sair" onPress={signOut} />
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
