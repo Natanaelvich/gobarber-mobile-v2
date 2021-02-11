@@ -41,6 +41,11 @@ const SingnIn: React.FC = () => {
 
   const hanleSignIn = useCallback(
     async (data: { email: string; password: string }) => {
+      setErrorLogin({
+        error: false,
+        message: '',
+      });
+
       try {
         formRef.current?.setErrors({});
         const schema = Yup.object().shape({
@@ -58,11 +63,13 @@ const SingnIn: React.FC = () => {
 
         await signIn({ email, password });
       } catch (error) {
+        console.log(error);
         if (error instanceof Yup.ValidationError) {
           const errors = getValidationErros(error);
           formRef.current?.setErrors(errors);
           return;
         }
+
         let messageError = '';
 
         if (error.status === 401) {
@@ -106,63 +113,63 @@ const SingnIn: React.FC = () => {
           <Title>Faça seu logon</Title>
 
           {errorLogin.error && (
-            <ErrorLogin>
-              <MaterialCommunityIcons
-                name="alert-circle"
-                size={32}
-                color="#E04848"
-              />
-              <ErrorLoginText>
-                {errorLogin.message ||
-                  'Falha no login, verifique suas credenciais e tente novamente!'}
-              </ErrorLoginText>
-            </ErrorLogin>
+            <MotiView
+              from={{ height: 0 }}
+              animate={{ height: 66 }}
+              transition={{
+                type: 'timing',
+                duration: 500,
+                scale: {
+                  type: 'spring',
+                  delay: 100,
+                },
+              }}
+              style={{ alignItems: 'center' }}
+            >
+              <ErrorLogin>
+                <MaterialCommunityIcons
+                  name="alert-circle"
+                  size={32}
+                  color="#E04848"
+                />
+                <ErrorLoginText>
+                  {errorLogin.message ||
+                    'Falha no login, verifique suas credenciais e tente novamente!'}
+                </ErrorLoginText>
+              </ErrorLogin>
+            </MotiView>
           )}
 
-          <MotiView
-            from={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{
-              type: 'timing',
-              duration: 2000,
-              scale: {
-                type: 'spring',
-                delay: 100,
-              },
-            }}
-            style={{ width: '100%' }}
-          >
-            <Form ref={formRef} onSubmit={hanleSignIn}>
-              <Input
-                autoCorrect={false}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                placeholder="E-mail"
-                name="email"
-                icon="mail"
-                returnKeyType="next"
-                onSubmitEditing={() => passwordRef.current?.focus()}
-              />
-              <Input
-                ref={passwordRef}
-                secureTextEntry
-                placeholder="Senha"
-                name="password"
-                icon="lock"
-                returnKeyType="send"
-                onSubmitEditing={() => {
-                  formRef.current?.submitForm();
-                }}
-              />
+          <Form ref={formRef} onSubmit={hanleSignIn}>
+            <Input
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              placeholder="E-mail"
+              name="email"
+              icon="mail"
+              returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current?.focus()}
+            />
+            <Input
+              ref={passwordRef}
+              secureTextEntry
+              placeholder="Senha"
+              name="password"
+              icon="lock"
+              returnKeyType="send"
+              onSubmitEditing={() => {
+                formRef.current?.submitForm();
+              }}
+            />
 
-              <Button
-                title="Entrar"
-                onPress={() => {
-                  formRef.current?.submitForm();
-                }}
-              />
-            </Form>
-          </MotiView>
+            <Button
+              title="Entrar"
+              onPress={() => {
+                formRef.current?.submitForm();
+              }}
+            />
+          </Form>
 
           <ForgotPasswordButton>
             <ForgotPassword>Esqueci minha senha</ForgotPassword>
