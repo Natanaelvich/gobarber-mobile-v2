@@ -54,7 +54,7 @@
     "react-native-gesture-handler": "~1.8.0",
     "react-native-iphone-x-helper": "^1.2.1",
     "react-native-modal-datetime-picker": "^9.0.0",
-    "react-native-reanimated": "^2.0.0-rc.0",
+    "react-native-reanimated": "^2.0.0-rc.3",
     "react-native-safe-area-context": "3.1.9",
     "react-native-screens": "~2.15.2",
     "react-native-web": "~0.13.12",
@@ -74,6 +74,7 @@
     "@types/yup": "^0.29.6",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
+    "axios-mock-adapter": "^1.19.0",
     "eslint": "6.8.0",
     "eslint-config-airbnb": "^18.2.0",
     "eslint-config-prettier": "^6.11.0",
@@ -83,10 +84,10 @@
     "eslint-plugin-prettier": "^3.1.4",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.0",
-    "prettier": "^2.1.1",
-    "typescript": "~4.0.0",
     "jest-expo": "^40.0.0",
-    "react-test-renderer": "^16.0.0"
+    "prettier": "^2.1.1",
+    "react-test-renderer": "^16.0.0",
+    "typescript": "~4.0.0"
   },
   "private": true
 }
