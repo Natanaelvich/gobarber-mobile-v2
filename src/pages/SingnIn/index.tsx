@@ -26,6 +26,7 @@ import logo from '../../assets/Logo.png';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { useAuth } from '../../hooks/modules/AuthContext';
+import api from '../../services/api';
 
 const SingnIn: React.FC = () => {
   const passwordRef = useRef<TextInput>(null);
@@ -73,13 +74,12 @@ const SingnIn: React.FC = () => {
           formRef.current?.setErrors(errors);
           return;
         }
-
         let messageError = '';
 
-        if (error.status === 401) {
-          messageError = 'Sua sessão expirou';
+        if (error?.response?.status === 401) {
+          messageError = 'E-mail ou senha incorretos';
         }
-        if (error.status === 500) {
+        if (error?.response?.status === 500) {
           messageError = 'Erro ao buscar macros, problemas no servidor ⚠';
         }
         if (error.message === 'Network Error') {
