@@ -15,10 +15,6 @@ interface User {
   avatar_url: string;
 }
 
-interface SingnCredencials {
-  email: string;
-  password: string;
-}
 interface AuthState {
   token: string;
   user: User;
@@ -27,7 +23,7 @@ interface AuthState {
 interface AuthContextData {
   user: User;
   loading: boolean;
-  signIn(crendencial: SingnCredencials): Promise<void>;
+  signIn(dataUser: Record<string, unknown>): Promise<void>;
   signOut(): void;
 }
 
@@ -53,13 +49,8 @@ const AuthProvider: React.FC = ({ children }) => {
 
     loadUserData();
   });
-  const signIn = useCallback(async ({ email, password }) => {
-    const response = await api.post('sessions', {
-      email,
-      password,
-    });
-
-    const { token, user } = response.data;
+  const signIn = useCallback(async dataUser => {
+    const { token, user } = data;
 
     await AsyncStorage.multiSet([
       ['@Gobarber:token', token],
