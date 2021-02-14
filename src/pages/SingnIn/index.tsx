@@ -61,7 +61,12 @@ const SingnIn: React.FC = () => {
 
         const { email, password } = data;
 
-        await signIn({ email, password });
+        const response = await api.post('sessions', {
+          email,
+          password,
+        });
+
+        await signIn(response.data);
       } catch (error) {
         console.log(error);
         if (error instanceof Yup.ValidationError) {
