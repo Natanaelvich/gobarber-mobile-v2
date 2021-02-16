@@ -32,6 +32,7 @@ const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = useState<AuthState>({} as AuthState);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     async function loadUserData(): Promise<void> {
       const [token, user] = await AsyncStorage.multiGet([
@@ -48,9 +49,10 @@ const AuthProvider: React.FC = ({ children }) => {
     }
 
     loadUserData();
-  });
+  }, []);
+
   const signIn = useCallback(async dataUser => {
-    const { token, user } = data;
+    const { token, user } = dataUser;
 
     await AsyncStorage.multiSet([
       ['@Gobarber:token', token],
@@ -76,10 +78,6 @@ const AuthProvider: React.FC = ({ children }) => {
 
 function useAuth(): AuthContextData {
   const context = useContext(AuthContext);
-
-  if (!context) {
-    throw new Error('useAuth must be used within a AuthProvider');
-  }
 
   return context;
 }
