@@ -8,7 +8,7 @@ export const Container = styled.View`
   flex: 1;
 `;
 
-export const Header = styled.View`
+export const Header = styled.TouchableOpacity`
   padding: 24px;
   padding-top: ${getStatusBarHeight() + 24}px;
   background: #28262e;

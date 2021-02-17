@@ -42,15 +42,18 @@ const Dashboard: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
-    try {
-      api.get('providers').then(response => {
+    async function getProviders(): Promise<void> {
+      try {
+        const response = await api.get('providers');
         setProviders(response.data);
-      });
-    } catch (error) {
-      setErrorMessage(
-        'Problemas ao buscar cabeleleiros 😞, teste novamente mais tarde!',
-      );
+      } catch (error) {
+        setErrorMessage(
+          'Problemas ao buscar cabeleleiros 😞, tente novamente mais tarde!',
+        );
+      }
     }
+
+    getProviders();
   }, []);
 
   const handleSelectProvider = useCallback(
@@ -62,15 +65,15 @@ const Dashboard: React.FC = () => {
 
   return (
     <Container>
-      <Header>
-        <BorderlessButton onPress={() => navigation.navigate('Profile')}>
+      <Header onPress={() => navigation.navigate('Profile')}>
+        <BorderlessButton>
           <HeaderTitle>
             Bem vindo, {'\n'}
             <UserName>{user.name}</UserName>
           </HeaderTitle>
         </BorderlessButton>
 
-        <ProfileButton onPress={() => navigation.navigate('Profile')}>
+        <ProfileButton>
           <UserAvatar
             source={{
               uri:
