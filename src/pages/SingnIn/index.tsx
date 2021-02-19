@@ -1,6 +1,6 @@
 import React, { useCallback, useRef, useState } from 'react';
 
-import { View as MotiView } from 'moti';
+import { AnimatePresence, View as MotiView } from 'moti';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Yup from 'yup';
 import { Form } from '@unform/mobile';
@@ -115,35 +115,39 @@ const SingnIn: React.FC = () => {
             <Logo source={logo} />
           </MotiView>
           <Title>Faça seu logon</Title>
-
-          {errorLogin.error && (
-            <MotiView
-              from={{ height: 0 }}
-              animate={{ height: 66 }}
-              exit={{ height: 0 }}
-              transition={{
-                type: 'timing',
-                duration: 500,
-                scale: {
-                  type: 'spring',
-                  delay: 100,
-                },
-              }}
-              style={{ alignItems: 'center' }}
-            >
-              <ErrorLogin>
-                <MaterialCommunityIcons
-                  name="alert-circle"
-                  size={32}
-                  color="#E04848"
-                />
-                <ErrorLoginText>
-                  {errorLogin.message ||
-                    'Falha no login, verifique suas credenciais e tente novamente!'}
-                </ErrorLoginText>
-              </ErrorLogin>
-            </MotiView>
-          )}
+          <AnimatePresence>
+            {errorLogin.error && (
+              <MotiView
+                from={{ height: 0, opacity: 0 }}
+                animate={{ height: 66, opacity: 1 }}
+                exit={{
+                  height: 0,
+                  opacity: 0,
+                }}
+                transition={{
+                  type: 'timing',
+                  duration: 500,
+                  scale: {
+                    type: 'spring',
+                    delay: 100,
+                  },
+                }}
+                style={{ alignItems: 'center' }}
+              >
+                <ErrorLogin>
+                  <MaterialCommunityIcons
+                    name="alert-circle"
+                    size={32}
+                    color="#E04848"
+                  />
+                  <ErrorLoginText>
+                    {errorLogin.message ||
+                      'Falha no login, verifique suas credenciais e tente novamente!'}
+                  </ErrorLoginText>
+                </ErrorLogin>
+              </MotiView>
+            )}
+          </AnimatePresence>
 
           <Form ref={formRef} onSubmit={hanleSignIn}>
             <Input
