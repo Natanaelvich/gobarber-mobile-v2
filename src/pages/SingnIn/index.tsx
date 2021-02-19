@@ -117,32 +117,32 @@ const SingnIn: React.FC = () => {
           <Title>Faça seu logon</Title>
 
           {errorLogin.error && (
-            // <MotiView
-            //   from={{ height: 0 }}
-            //   animate={{ height: 66 }}
-            //   exit={{ height: 0 }}
-            //   transition={{
-            //     type: 'timing',
-            //     duration: 500,
-            //     scale: {
-            //       type: 'spring',
-            //       delay: 100,
-            //     },
-            //   }}
-            //   style={{ alignItems: 'center' }}
-            // >
-            <ErrorLogin>
-              <MaterialCommunityIcons
-                name="alert-circle"
-                size={32}
-                color="#E04848"
-              />
-              <ErrorLoginText>
-                {errorLogin.message ||
-                  'Falha no login, verifique suas credenciais e tente novamente!'}
-              </ErrorLoginText>
-            </ErrorLogin>
-            // </MotiView>
+            <MotiView
+              from={{ height: 0 }}
+              animate={{ height: 66 }}
+              exit={{ height: 0 }}
+              transition={{
+                type: 'timing',
+                duration: 500,
+                scale: {
+                  type: 'spring',
+                  delay: 100,
+                },
+              }}
+              style={{ alignItems: 'center' }}
+            >
+              <ErrorLogin>
+                <MaterialCommunityIcons
+                  name="alert-circle"
+                  size={32}
+                  color="#E04848"
+                />
+                <ErrorLoginText>
+                  {errorLogin.message ||
+                    'Falha no login, verifique suas credenciais e tente novamente!'}
+                </ErrorLoginText>
+              </ErrorLogin>
+            </MotiView>
           )}
 
           <Form ref={formRef} onSubmit={hanleSignIn}>
