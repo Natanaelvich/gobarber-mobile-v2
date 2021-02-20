@@ -1,24 +1,33 @@
 import 'react-native-gesture-handler';
 import React from 'react';
-import Bugsnag from '@bugsnag/expo';
-import { Text, View } from 'react-native';
+import ErrorBoundary from 'react-native-error-boundary';
+
+import { Text, View, TouchableOpacity } from 'react-native';
 import Main from './src';
 
-Bugsnag.start();
-
-const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React);
+const CustomFallback = (props: { error: Error; resetError: Function }) => (
+  <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
+    <Text style={{ fontSize: 56, color: '#333333' }}>Ops, Acho que ruim!</Text>
+    <Text style={{ fontSize: 16, color: '#666', marginVertical: 12 }}>
+      {props.error.toString()}
+    </Text>
+    <TouchableOpacity
+      style={{
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        backgroundColor: 'blue',
+        borderRadius: 12,
+      }}
+      onPress={props.resetError}
+    >
+      <Text style={{ fontSize: 23, color: '#ffff' }}>Tente novamente</Text>
+    </TouchableOpacity>
+  </View>
+);
 
 const App: React.FC = () => {
   return (
-    <ErrorBoundary
-      FallbackComponent={() => (
-        <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-        >
-          <Text>Tem um erro oh</Text>
-        </View>
-      )}
-    >
+    <ErrorBoundary FallbackComponent={CustomFallback}>
       <Main />
     </ErrorBoundary>
   );
