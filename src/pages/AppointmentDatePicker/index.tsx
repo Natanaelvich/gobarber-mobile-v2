@@ -3,7 +3,6 @@ import { format } from 'date-fns';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 import { useRoute, useNavigation } from '@react-navigation/native';
-import { Alert } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/modules/AuthContext';
@@ -29,11 +28,17 @@ import {
   CreateAppointmentButton,
   CreateAppointmentButtonText,
 } from './styles';
+import getAvatarUrl from '../../utils/getAvatarUrl';
+import ModalFeedBack from '../../components/ModalFeedback';
 
 export interface Provider {
   id: string;
   name: string;
   avatar_url: string;
+}
+
+export interface ProviderItemList {
+  item: Provider;
 }
 
 interface RouteParams {
@@ -50,6 +55,8 @@ const AppointmentDatePicker: React.FC = () => {
   const route = useRoute();
   const navigation = useNavigation();
   const params = route.params as RouteParams;
+
+  const [visibleModal, setVisibleModal] = useState(false);
 
   const [selectedProvider, setSelectedProvider] = useState<string>(
     params.providerId,
@@ -110,10 +117,7 @@ const AppointmentDatePicker: React.FC = () => {
 
       navigation.navigate('AppointmentCreated', { date: date.getTime() });
     } catch (err) {
-      Alert.alert(
-        'Erro ao criar agendamento',
-        'Ocorreu um erro ao tentar criar o agendamento, tente novamente!',
-      );
+      setVisibleModal(true);
     }
   }, [selectedProvider, selectedDate, selectedHour, navigation]);
 
@@ -170,8 +174,8 @@ const AppointmentDatePicker: React.FC = () => {
         <ProvidersListContainer>
           <ProvidersList
             data={providers}
-            keyExtractor={provider => provider.id}
-            renderItem={({ item: provider }) => (
+            keyExtractor={(provider: Provider) => provider.id}
+            renderItem={({ item: provider }: ProviderItemList) => (
               <ProviderContainer
                 selected={provider.id === selectedProvider}
                 onPress={() => handleSelectProvider(provider.id)}
@@ -179,8 +183,8 @@ const AppointmentDatePicker: React.FC = () => {
                 <ProviderAvatar
                   source={{
                     uri:
-                      provider.avatar_url ||
-                      `https://api.adorable.io/avatars/200/${provider.name}@adorable.png`,
+                      getAvatarUrl(provider.avatar_url) ||
+                      `https://www.gravatar.com/avatar/${provider.id}`,
                   }}
                 />
                 <ProviderName selected={provider.id === selectedProvider}>
@@ -251,6 +255,14 @@ const AppointmentDatePicker: React.FC = () => {
           <CreateAppointmentButtonText>Agendar</CreateAppointmentButtonText>
         </CreateAppointmentButton>
       </Container>
+
+      <ModalFeedBack
+        type="error"
+        setVisible={setVisibleModal}
+        visible={visibleModal}
+        title="Algo deu errado"
+        description="Esta operação apresenta falhas"
+      />
     </>
   );
 };
