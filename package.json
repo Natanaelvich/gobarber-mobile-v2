@@ -30,7 +30,6 @@
     ]
   },
   "dependencies": {
-    "@bugsnag/expo": "^7.6.0",
     "@expo-google-fonts/roboto-slab": "^0.1.0",
     "@expo/vector-icons": "^12.0.0",
     "@react-native-async-storage/async-storage": "^1.13.3",
@@ -80,7 +79,7 @@
     "@types/react": "~16.9.35",
     "@types/react-native": "~0.63.2",
     "@types/react-test-renderer": "^17.0.0",
-    "@types/styled-components": "^5.1.3",
+    "@types/styled-components-react-native": "^5.1.1",
     "@types/yup": "^0.29.6",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
