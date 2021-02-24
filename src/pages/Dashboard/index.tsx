@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { BorderlessButton } from 'react-native-gesture-handler';
+import { ActivityIndicator } from 'react-native';
 import api from '../../services/api';
 import { useAuth } from '../../hooks/modules/AuthContext';
 import {
@@ -10,7 +11,6 @@ import {
   Header,
   HeaderTitle,
   UserName,
-  ProfileButton,
   UserAvatar,
   ProvidersList,
   ProvidersListTitle,
@@ -40,16 +40,20 @@ const Dashboard: React.FC = () => {
   const navigation = useNavigation();
   const [providers, setProviders] = useState<Provider[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [loadingGetProviders, setLoadingGetProviders] = useState(false);
 
   useEffect(() => {
     async function getProviders(): Promise<void> {
       try {
+        setLoadingGetProviders(true);
         const response = await api.get('providers');
         setProviders(response.data);
       } catch (error) {
         setErrorMessage(
           'Problemas ao buscar cabeleleiros 😞, tente novamente mais tarde!',
         );
+      } finally {
+        setLoadingGetProviders(false);
       }
     }
 
@@ -73,15 +77,13 @@ const Dashboard: React.FC = () => {
           </HeaderTitle>
         </BorderlessButton>
 
-        <ProfileButton>
-          <UserAvatar
-            source={{
-              uri:
-                getAvatarUrl(user.avatar_url) ||
-                `https://www.gravatar.com/avatar/${user.id}`,
-            }}
-          />
-        </ProfileButton>
+        <UserAvatar
+          source={{
+            uri:
+              getAvatarUrl(user.avatar_url) ||
+              `https://www.gravatar.com/avatar/${user.id}`,
+          }}
+        />
       </Header>
       {providers.length > 0 ? (
         <ProvidersList
@@ -126,9 +128,17 @@ const Dashboard: React.FC = () => {
         />
       ) : (
         <ProvidersEmptyContainer>
-          <ProvidersEmptyTitle>
-            {errorMessage || 'Não existe cabeleleiros ainda 😅 !'}
-          </ProvidersEmptyTitle>
+          {loadingGetProviders ? (
+            <ActivityIndicator
+              size="large"
+              color="#fff"
+              animating={loadingGetProviders}
+            />
+          ) : (
+            <ProvidersEmptyTitle>
+              {errorMessage || 'Não existe cabeleleiros ainda 😅 !'}
+            </ProvidersEmptyTitle>
+          )}
         </ProvidersEmptyContainer>
       )}
     </Container>

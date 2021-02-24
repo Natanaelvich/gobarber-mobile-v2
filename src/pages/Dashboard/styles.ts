@@ -77,6 +77,7 @@ export const ProviderContainer = styled(RectButton)`
   margin-bottom: 16px;
   background: #3e3b47;
   border-radius: 10px;
+  elevation: 6;
 `;
 
 export const ProviderAvatar = styled.Image`
