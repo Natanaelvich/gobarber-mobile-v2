@@ -1,11 +1,11 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 
 import { Feather } from '@expo/vector-icons';
 import * as Yup from 'yup';
 import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
-import { TextInput, Alert } from 'react-native';
+import { TextInput } from 'react-native';
 import {
   Container,
   Logo,
@@ -20,12 +20,20 @@ import Input from '../../components/Input';
 import Button from '../../components/Button';
 import getValidationErros from '../../utils/getValidationErros';
 import api from '../../services/api';
+import ModalFeedback from '../../components/ModalFeedback';
 
 const SingnUp: React.FC = () => {
   const navigation = useNavigation();
   const formRef = useRef<FormHandles>(null);
   const passwordRef = useRef<TextInput>(null);
   const emailRef = useRef<TextInput>(null);
+
+  const [modalOptions, setModalOptions] = useState({
+    visible: false,
+    type: 'success',
+    title: 'Sucesso',
+    description: 'Operação realizada com sucesso.',
+  });
 
   const hanleSignIn = useCallback(
     async (data: { name: string; email: string; password: string }) => {
@@ -58,10 +66,12 @@ const SingnUp: React.FC = () => {
           return;
         }
 
-        Alert.alert(
-          'Erro no cadatro',
-          'Ocorreu um erro ao fazer o cadastro, tente novamente',
-        );
+        setModalOptions({
+          visible: true,
+          title: 'Erro na atualização!',
+          description: 'Seu perfil não foi atualizado',
+          type: 'error',
+        });
       }
     },
     [navigation],
@@ -117,6 +127,14 @@ const SingnUp: React.FC = () => {
         <Feather name="arrow-left" size={24} color="#fff" />
         <ReturnLoginText>Voltar para login</ReturnLoginText>
       </ReturnLoginContainer>
+
+      <ModalFeedback
+        type={modalOptions.type}
+        setVisible={visible => setModalOptions({ visible })}
+        visible={modalOptions.visible}
+        title={modalOptions.title}
+        descricao={modalOptions.description}
+      />
     </Container>
   );
 };
