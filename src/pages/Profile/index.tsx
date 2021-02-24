@@ -1,11 +1,10 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import {
   View,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
   TextInput,
-  Alert,
 } from 'react-native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
@@ -20,11 +19,19 @@ import Button from '../../components/Button';
 
 import { Container, Title, Avatar } from './styles';
 import getAvatarUrl from '../../utils/getAvatarUrl';
+import ModalFeedback from '../../components/ModalFeedback';
 
 interface ProfileFormData {
   name: string;
   email: string;
   password: string;
+}
+
+interface ModalOptions {
+  visible: boolean;
+  type?: string;
+  title?: string;
+  description?: string;
 }
 
 const Profile: React.FC = () => {
@@ -35,6 +42,13 @@ const Profile: React.FC = () => {
   const passwordInputRef = useRef<TextInput>(null);
   const newPasswordInputRef = useRef<TextInput>(null);
   const confirmPasswordInputRef = useRef<TextInput>(null);
+
+  const [modalOptions, setModalOptions] = useState<ModalOptions>({
+    visible: false,
+    type: 'success',
+    title: 'Sucesso',
+    description: 'Operação realizada com sucesso.',
+  });
 
   const handleSaveProfile = useCallback(async (data: ProfileFormData) => {
     try {
@@ -64,10 +78,11 @@ const Profile: React.FC = () => {
         abortEarly: false,
       });
 
-      Alert.alert(
-        'Perfil atualizado com sucesso!',
-        'As informações do perfil foram atualizadas.',
-      );
+      setModalOptions({
+        visible: true,
+        title: 'Perfil atualizado!',
+        description: 'Seu perfil foi atualizado',
+      });
     } catch (err) {
       if (err instanceof Yup.ValidationError) {
         const errors = getValidationErros(err);
@@ -77,10 +92,12 @@ const Profile: React.FC = () => {
         return;
       }
 
-      Alert.alert(
-        'Erro no cadastro',
-        'Ocorreu um erro ao fazer cadastro, tente novamente.',
-      );
+      setModalOptions({
+        visible: true,
+        title: 'Erro na atualização!',
+        description: 'Seu perfil não foi atualizado',
+        type: 'error',
+      });
     }
   }, []);
 
@@ -177,6 +194,14 @@ const Profile: React.FC = () => {
           </Container>
         </ScrollView>
       </KeyboardAvoidingView>
+
+      <ModalFeedback
+        type={modalOptions.type}
+        setVisible={(visible: boolean) => setModalOptions({ visible })}
+        visible={modalOptions.visible}
+        title={modalOptions.title}
+        description={modalOptions.description}
+      />
     </>
   );
 };
