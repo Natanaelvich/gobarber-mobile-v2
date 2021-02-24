@@ -25,19 +25,6 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "bugsnag": {
-        "apiKey": "7b821e2ee1cd9e05a4c284955aefb9e6"
-      }
-    },
-    "hooks": {
-      "postPublish": [
-        {
-          "file": "@bugsnag/expo/hooks/post-publish.js",
-          "config": {}
-        }
-      ]
     }
   }
 }
