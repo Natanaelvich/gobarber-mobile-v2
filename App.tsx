@@ -7,7 +7,9 @@ import Main from './src';
 
 const CustomFallback = (props: { error: Error; resetError: Function }) => (
   <View style={{ flex: 1, justifyContent: 'center', padding: 20 }}>
-    <Text style={{ fontSize: 56, color: '#333333' }}>Ops, Acho que ruim!</Text>
+    <Text style={{ fontSize: 56, color: '#333333' }}>
+      Ops, Acho que deu ruim!
+    </Text>
     <Text style={{ fontSize: 16, color: '#666', marginVertical: 12 }}>
       {props.error.toString()}
     </Text>
