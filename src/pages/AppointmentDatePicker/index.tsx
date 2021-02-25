@@ -27,6 +27,8 @@ import {
   HourText,
   CreateAppointmentButton,
   CreateAppointmentButtonText,
+  ButtonPickerDate,
+  ButtonPickerDateText,
 } from './styles';
 import getAvatarUrl from '../../utils/getAvatarUrl';
 import ModalFeedBack from '../../components/ModalFeedback';
@@ -77,6 +79,15 @@ const AppointmentDatePicker: React.FC = () => {
 
   const [providers, setProviders] = useState<Provider[]>([]);
   const [availability, setAvailability] = useState<AvailabilityItem[]>([]);
+
+  const selectedDateFormat = useMemo(() => {
+    let dateFormated = null;
+    if (selectedDate) {
+      dateFormated = format(selectedDate, 'yyyy/MM/dd');
+    }
+
+    return dateFormated;
+  }, [selectedDate]);
 
   useEffect(() => {
     api.get('providers').then(response => {
@@ -143,9 +154,9 @@ const AppointmentDatePicker: React.FC = () => {
 
   const [isDatePickerVisible, setDatePickerVisibility] = useState(true);
 
-  // function showDatePicker(): void {
-  //   setDatePickerVisibility(true);
-  // }
+  function showDatePicker(): void {
+    setDatePickerVisibility(true);
+  }
 
   function hideDatePicker(): void {
     setDatePickerVisibility(false);
@@ -197,13 +208,16 @@ const AppointmentDatePicker: React.FC = () => {
 
         <Calendar>
           <Title>Escolha a data</Title>
-
+          <ButtonPickerDate onPress={showDatePicker}>
+            <ButtonPickerDateText>{selectedDateFormat}</ButtonPickerDateText>
+          </ButtonPickerDate>
           <DateTimePickerModal
             isVisible={isDatePickerVisible}
             mode="date"
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
             minimumDate={minimumDate}
+            locale="pt_BR"
           />
         </Calendar>
 

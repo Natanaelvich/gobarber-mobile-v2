@@ -76,6 +76,7 @@ export const ProviderContainer = styled(RectButton)<ProviderContainerProps>`
   padding: 8px 12px;
   margin-right: 16px;
   background: ${props => (props.selected ? '#FF9000' : '#3e3b47')};
+  elevation: ${props => (props.selected ? 6 : 0)};
   border-radius: 10px;
 `;
 
@@ -99,6 +100,21 @@ export const Title = styled.Text`
   color: #f4ede8;
   font-size: 24px;
   margin: 0 24px 24px;
+`;
+
+export const ButtonPickerDate = styled.TouchableOpacity`
+  background: #3e3b47;
+  width: 45%;
+  margin-left: 24px;
+  padding: 12px;
+  border-radius: 10px;
+  elevation: 6;
+  align-items: center;
+`;
+export const ButtonPickerDateText = styled.Text`
+  color: #f4ede8;
+  font-family: RobotoSlab_400Regular;
+  font-size: 18px;
 `;
 
 export const Schedule = styled.View`
@@ -130,8 +146,9 @@ export const Hour = styled(RectButton).attrs((props: HourProps) => ({
   padding: 12px;
   background: ${props => (props.selected ? '#FF9000' : '#3e3b47')};
   border-radius: 10px;
-  margin-right: 8px;
   opacity: ${props => (props.available ? 1 : 0.3)};
+  elevation: ${props => (props.available ? 6 : 0)};
+  margin: 8px;
 `;
 
 export const HourText = styled.Text<HourTextProps>`
