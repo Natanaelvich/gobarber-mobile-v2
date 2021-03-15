@@ -12,10 +12,15 @@
 ## ScreenShots
 
 <p align='center'>
-  
   <img src='https://user-images.githubusercontent.com/52014318/92420560-79b4fe00-f14a-11ea-8a63-bab8bd59c2e9.png' width='240' />
   <img src='https://user-images.githubusercontent.com/52014318/92420559-7883d100-f14a-11ea-975e-ebecbcd1ab7a.png' width='240' />
   <img src='https://user-images.githubusercontent.com/52014318/92420558-7752a400-f14a-11ea-8da6-2bb486d3ccc4.png' width='240' />
+</ p>
+
+
+<p align='center'>
+  <img src='https://user-images.githubusercontent.com/52014318/111217235-2073ce80-85b4-11eb-9c5e-e452d6824aa8.png' width='240' />
+  <img src='https://user-images.githubusercontent.com/52014318/111217237-21a4fb80-85b4-11eb-9b6e-ba5960af4d8f.png' width='240' />
 </ p>
 
 
