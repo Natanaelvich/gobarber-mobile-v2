@@ -80,7 +80,7 @@ const SingnIn: React.FC = () => {
           messageError = 'E-mail ou senha incorretos';
         }
         if (error?.response?.status === 500) {
-          messageError = 'Erro ao buscar macros, problemas no servidor ⚠';
+          messageError = 'Problemas no servidor ⚠';
         }
         if (error.message === 'Network Error') {
           messageError =
