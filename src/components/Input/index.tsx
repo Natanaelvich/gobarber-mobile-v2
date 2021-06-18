@@ -10,6 +10,8 @@ import React, {
 import { useField } from '@unform/core';
 import { TextInputProps } from 'react-native';
 import { Feather } from '@expo/vector-icons';
+import { View as MotiView } from 'moti';
+
 import { Container, TextInput, ErrorText } from './styles';
 
 interface InputProps extends TextInputProps {
@@ -76,7 +78,22 @@ const Input: React.RefForwardingComponent<InputRef, InputProps> = (
 
   return (
     <>
-      {!!error && <ErrorText>{error}</ErrorText>}
+      {!!error && (
+        <MotiView
+          from={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{
+            type: 'timing',
+            duration: 500,
+            scale: {
+              type: 'spring',
+              delay: 100,
+            },
+          }}
+        >
+          <ErrorText>{error}</ErrorText>
+        </MotiView>
+      )}
       <Container isFocused={isFocused} isFilled={isFilled} isErrored={!!error}>
         <Feather
           name={icon}
