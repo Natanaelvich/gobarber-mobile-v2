@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import { TextInput } from 'react-native';
+import { View as MotiView } from 'moti';
+
 import {
   Container,
   Logo,
@@ -79,7 +81,21 @@ const SingnUp: React.FC = () => {
   return (
     <Container>
       <FormContainer>
-        <Logo source={logo} />
+        <MotiView
+          from={{ top: -44 }}
+          animate={{ top: 1 }}
+          transition={{
+            type: 'timing',
+            duration: 1000,
+            scale: {
+              type: 'spring',
+              delay: 100,
+            },
+          }}
+          style={{ alignItems: 'center' }}
+        >
+          <Logo source={logo} />
+        </MotiView>
         <Title>Faça seu cadastro</Title>
         <Form ref={formRef} onSubmit={hanleSignIn}>
           <Input
