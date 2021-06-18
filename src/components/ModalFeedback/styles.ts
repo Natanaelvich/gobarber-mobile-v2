@@ -1,9 +1,12 @@
 import styled from 'styled-components/native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+
+type ModalProps = {
+  type: string;
+};
 
 export const Container = styled.View``;
-export const CardModal = styled.View`
+export const CardModal = styled.View<ModalProps>`
   background: #fff;
   border-radius: 6px;
   padding: 12px;
@@ -15,11 +18,11 @@ export const CardModal = styled.View`
   flex-direction: row;
   position: relative;
 `;
-export const IconChecked = styled(MaterialIcons).attrs(props => ({
+export const IconChecked = styled(MaterialIcons).attrs((props: ModalProps) => ({
   size: 56,
   name: props.type === 'success' ? 'check-circle' : 'close',
   color: props.type === 'success' ? '#87c981' : '#EC5870',
-}))``;
+}))<ModalProps>``;
 export const IconClose = styled(MaterialIcons).attrs({
   size: 18,
   name: 'close',
