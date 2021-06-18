@@ -130,10 +130,12 @@ const SingnUp: React.FC = () => {
 
       <ModalFeedback
         type={modalOptions.type}
-        setVisible={visible => setModalOptions({ visible })}
+        setVisible={(visible: boolean) => {
+          setModalOptions({ ...modalOptions, visible });
+        }}
         visible={modalOptions.visible}
         title={modalOptions.title}
-        descricao={modalOptions.description}
+        description={modalOptions.description}
       />
     </Container>
   );
