@@ -1,3 +1,4 @@
+import Animated from 'react-native-reanimated';
 import styled from 'styled-components/native';
 
 export const Container = styled.ScrollView.attrs({
@@ -13,6 +14,7 @@ export const FormContainer = styled.View`
   justify-content: center;
   padding: 40px;
 `;
+export const LogoContainer = styled(Animated.View)``;
 export const Logo = styled.Image``;
 export const Title = styled.Text`
   margin: 64px 0 24px;

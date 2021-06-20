@@ -1,6 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import { AnimatePresence, View as MotiView } from 'moti';
 import { Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Yup from 'yup';
 import { Form } from '@unform/mobile';
@@ -8,6 +7,12 @@ import { FormHandles } from '@unform/core';
 
 import { useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native';
+import {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import getValidationErros from '../../utils/getValidationErros';
 import {
   Container,
@@ -20,6 +25,7 @@ import {
   FormContainer,
   ErrorLogin,
   ErrorLoginText,
+  LogoContainer,
 } from './styles';
 
 import logo from '../../assets/Logo.png';
@@ -29,6 +35,8 @@ import { useAuth } from '../../hooks/modules/AuthContext';
 import api from '../../services/api';
 
 const SingnIn: React.FC = () => {
+  const offset = useSharedValue(-30);
+
   const passwordRef = useRef<TextInput>(null);
   const formRef = useRef<FormHandles>(null);
   const navigation = useNavigation();
@@ -37,6 +45,19 @@ const SingnIn: React.FC = () => {
     error: false,
     message: '',
   });
+
+  const animatedStyles = useAnimatedStyle(() => {
+    return {
+      transform: [{ translateY: offset.value }],
+    };
+  });
+
+  useEffect(() => {
+    offset.value = withTiming(0, {
+      duration: 1000,
+      easing: Easing.out(Easing.exp),
+    });
+  }, [offset]);
 
   const { signIn } = useAuth();
 
@@ -95,59 +116,29 @@ const SingnIn: React.FC = () => {
     },
     [signIn],
   );
+
   return (
     <>
       <Container>
         <FormContainer>
-          <MotiView
-            from={{ top: -44 }}
-            animate={{ top: 1 }}
-            transition={{
-              type: 'timing',
-              duration: 1000,
-              scale: {
-                type: 'spring',
-                delay: 100,
-              },
-            }}
-            style={{ alignItems: 'center' }}
-          >
+          <LogoContainer style={animatedStyles}>
             <Logo source={logo} />
-          </MotiView>
+          </LogoContainer>
+
           <Title>Faça seu logon</Title>
-          <AnimatePresence>
-            {errorLogin.error && (
-              <MotiView
-                from={{ height: 0, opacity: 0 }}
-                animate={{ height: 66, opacity: 1 }}
-                exit={{
-                  height: 0,
-                  opacity: 0,
-                }}
-                transition={{
-                  type: 'timing',
-                  duration: 500,
-                  scale: {
-                    type: 'spring',
-                    delay: 100,
-                  },
-                }}
-                style={{ alignItems: 'center' }}
-              >
-                <ErrorLogin>
-                  <MaterialCommunityIcons
-                    name="alert-circle"
-                    size={32}
-                    color="#E04848"
-                  />
-                  <ErrorLoginText>
-                    {errorLogin.message ||
-                      'Falha no login, verifique suas credenciais e tente novamente!'}
-                  </ErrorLoginText>
-                </ErrorLogin>
-              </MotiView>
-            )}
-          </AnimatePresence>
+          {errorLogin.error && (
+            <ErrorLogin>
+              <MaterialCommunityIcons
+                name="alert-circle"
+                size={32}
+                color="#E04848"
+              />
+              <ErrorLoginText>
+                {errorLogin.message ||
+                  'Falha no login, verifique suas credenciais e tente novamente!'}
+              </ErrorLoginText>
+            </ErrorLogin>
+          )}
 
           <Form ref={formRef} onSubmit={hanleSignIn}>
             <Input
