@@ -6,7 +6,6 @@ import {
   moveAnimationByTime,
 } from 'react-native-reanimated/src/reanimated2/jestUtils';
 
-import { AnimatePresence } from 'moti';
 import SingnIn from '../../pages/SingnIn';
 import api from '../../services/api';
 
@@ -46,17 +45,10 @@ describe('SignIn page', () => {
   });
 
   it('Should contains email/password inputs', async () => {
-    withReanimatedTimer(() => {
-      const { getByPlaceholderText } = render(
-        <AnimatePresence>
-          <SingnIn />
-        </AnimatePresence>,
-      );
+    const { getByPlaceholderText } = render(<SingnIn />);
 
-      moveAnimationByTime(500);
-      expect(getByPlaceholderText('E-mail')).toBeTruthy();
-      expect(getByPlaceholderText('Senha')).toBeTruthy();
-    });
+    expect(getByPlaceholderText('E-mail')).toBeTruthy();
+    expect(getByPlaceholderText('Senha')).toBeTruthy();
   });
 
   // it('Should be able to sing in', async () => {
