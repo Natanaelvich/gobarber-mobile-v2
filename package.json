@@ -51,7 +51,6 @@
     "expo-status-bar": "~1.0.3",
     "expo-updates": "~0.4.0",
     "hermes-engine": "^0.5.2-rc1",
-    "moti": "^0.4.1",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-native": "~0.63.4",
